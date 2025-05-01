@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AMU Admission Test 2025 - BSc Nursing Rank Predictor</title>
+    <style>
+        :root {
+            --primary: #1a2942;
+            --secondary: #4a6fa5;
+            --accent: #5d9cec;
+            --light: #ecf0f1;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --info: #3498db;
+            --danger: #e74c3c;
+            /* Colors for BSc Nursing */
+            --nursing-primary: #2c3e50;
+            --nursing-secondary: #8e44ad;
+            --nursing-accent: #9b59b6;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7fa;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .calculator-card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, var(--nursing-primary), var(--nursing-secondary));
+            color: white;
+            padding: 25px 20px;
+            text-align: center;
+            position: relative;
+            transition: background 0.3s ease;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+        
+        .header p {
+            margin: 10px 0 0;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .form-container {
+            padding: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--nursing-primary);
+            font-size: 15px;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s;
+            box-sizing: border-box;
+        }
+        
+        input:focus, select:focus {
+            border-color: var(--nursing-accent);
+            box-shadow: 0 0 0 3px rgba(155, 89, 182, 0.2);
+            outline: none;
+        }
+        
+        button {
+            background: linear-gradient(to right, var(--nursing-secondary), var(--nursing-accent));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 14px 20px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px rgba(155, 89, 182, 0.2);
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 14px rgba(155, 89, 182, 0.3);
+        }
+        
+        .result {
+            display: none;
+            margin-top: 30px;
+            padding: 25px;
+            border-radius: 10px;
+            background-color: #f5eef8;
+            border-left: 5px solid var(--nursing-accent);
+        }
+        
+        .result h2 {
+            margin-top: 0;
+            color: var(--nursing-primary);
+            font-size: 20px;
+        }
+        
+        .result-item {
+            margin: 15px 0;
+            font-size: 16px;
+            display: flex;
+            justify-content: space-between;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed #ddd;
+        }
+        
+        .result-item:last-child {
+            border-bottom: none;
+        }
+        
+        .result-value {
+            font-weight: 600;
+            color: var(--nursing-primary);
+        }
+        
+        .result-rank {
+            font-size: 32px;
+            font-weight: bold;
+            color: var(--nursing-secondary);
+            text-align: center;
+            margin: 20px 0;
+            padding: 10px;
+            background: #ede7f6;
+            border-radius: 8px;
+        }
+        
+        .result-note {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 6px;
+            background-color: #fdf2e9;
+            border-left: 4px solid var(--warning);
+            font-size: 14px;
+            display: none;
+        }
+        
+        .result-below-cutoff {
+            background-color: #fae5e5;
+            border-left: 4px solid var(--danger);
+        }
+        
+        .info-card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+        
+        .info-heading {
+            color: var(--nursing-primary);
+            font-size: 18px;
+            margin-top: 0;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #eee;
+        }
+        
+        .info-point {
+            margin: 12px 0;
+            font-size: 14px;
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .info-icon {
+            color: var(--info);
+            margin-right: 10px;
+            font-size: 18px;
+            min-width: 20px;
+            text-align: center;
+        }
+        
+        .contact {
+            margin-top: 10px;
+            padding: 12px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+        }
+        
+        .error {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .header h1 {
+                font-size: 20px;
+            }
+            
+            .form-container {
+                padding: 20px;
+            }
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+        
+        .badge-nursing {
+            background-color: #ede7f6;
+            color: var(--nursing-secondary);
+        }
+        
+        .seat-info {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin: 15px 0;
+        }
+        
+        .seat-item {
+            flex-basis: 48%;
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            font-size: 14px;
+            text-align: center;
+        }
+        
+        .total-seats {
+            background-color: #ede7f6;
+            border: 2px solid #9575cd;
+            color: #5e35b1;
+        }
+        
+        .seat-count {
+            font-weight: 600;
+            color: var(--nursing-secondary);
+            display: block;
+            font-size: 18px;
+            margin-top: 5px;
+        }
+        
+        .total-seats .seat-count {
+            color: #5e35b1;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="calculator-card">
+            <div class="header" id="headerSection">
+                <h1>AMU Admission Test 2025</h1>
+                <p>BSc Nursing - Expected Rank Calculator</p>
+                <span class="badge badge-nursing" id="participantBadge">Number of Students Appeared: Unknown</span>
+            </div>
+            
+            <div class="form-container">
+                <form id="rankForm">
+                    <div class="form-group">
+                        <label for="name">Student Name:</label>
+                        <input type="text" id="name" placeholder="Enter student name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="marks">Marks Obtained:</label>
+                        <input type="number" id="marks" min="0" max="100" placeholder="Enter marks (0-100)" required>
+                        <div id="marksError" class="error">Please enter marks between 0 and 100.</div>
+                    </div>
+                    
+                    <button type="submit" id="submitBtn">Calculate Expected Rank</button>
+                </form>
+            </div>
+        </div>
+        
+        <div id="result" class="result">
+            <h2>Rank Prediction Results</h2>
+            <div class="result-item">
+                <span>Student Name:</span>
+                <span id="resultName" class="result-value"></span>
+            </div>
+            <div class="result-item">
+                <span>Course:</span>
+                <span id="resultCourse" class="result-value">BSc Nursing Program</span>
+            </div>
+            <div class="result-item">
+                <span>Marks:</span>
+                <span id="resultMarks" class="result-value"></span>
+            </div>
+            
+            <div class="result-rank" id="resultRank">Rank: 0</div>
+            
+            <div class="result-item" id="waitingListSection">
+                <span>Waiting List Rank:</span>
+                <span id="resultWaitingRank" class="result-value"></span>
+            </div>
+            
+            <div class="seat-info" id="seatInfo">
+                <!-- Seat information will be populated by JavaScript -->
+            </div>
+            
+            <div id="resultNote" class="result-note">
+                <!-- Note about cutoff or other relevant information -->
+            </div>
+        </div>
+        
+        <div class="info-card">
+            <h3 class="info-heading">Important Information</h3>
+            
+            <div class="info-point">
+                <span class="info-icon">📊</span>
+                <span>No official data is available on how many students appeared for BSc Nursing. This rank calculator is based on limited data collected from previous students.</span>
+            </div>
+            
+            <div class="info-point">
+                <span class="info-icon">ℹ️</span>
+                <span>This expected rank calculator provides an estimate based on limited previous data. The actual results may vary. Please use this as a general guide only.</span>
+            </div>
+            
+            <div class="info-point">
+                <span class="info-icon">💺</span>
+                <span>
+                    <strong>Total Seats:</strong><br>
+                    • BSc Nursing Program: 45 regular seats
+                </span>
+            </div>
+            
+            <div class="info-point">
+                <span class="info-icon">❗</span>
+                <span>As per official documents, a minimum of 50% marks is required in the entrance examination to be eligible for admission.</span>
+            </div>
+            
+            <div class="info-point">
+                <span class="info-icon">📞</span>
+                <span>If you need any help regarding counselling or have questions, please contact us:</span>
+            </div>
+            
+            <div class="contact">
+                09149822922
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Analytics code - track usage
+        let visitCount = 0;
+        let calculationCount = 0;
+        
+        // Check if localStorage is available
+        function isLocalStorageAvailable() {
+            try {
+                localStorage.setItem('test', 'test');
+                localStorage.removeItem('test');
+                return true;
+            } catch (e) {
+                return false;
+            }
+        }
+        
+        // Initialize analytics
+        function initAnalytics() {
+            if (isLocalStorageAvailable()) {
+                // Increment visit count
+                visitCount = parseInt(localStorage.getItem('amuToolVisits') || '0') + 1;
+                localStorage.setItem('amuToolVisits', visitCount.toString());
+                
+                // Get calculation count
+                calculationCount = parseInt(localStorage.getItem('amuToolCalculations') || '0');
+                
+                // Log visit (you can replace this with your own analytics solution)
+                console.log(`Visit #${visitCount} recorded`);
+            }
+        }
+        
+        // Log a calculation
+        function logCalculation(studentData) {
+            if (isLocalStorageAvailable()) {
+                calculationCount++;
+                localStorage.setItem('amuToolCalculations', calculationCount.toString());
+                
+                // Log calculation (you can replace this with your own analytics solution)
+                console.log(`Calculation #${calculationCount} recorded`, studentData);
+            }
+        }
+        
+        // Wait for the DOM to be fully loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize analytics when page loads
+            initAnalytics();
+            
+            // Get form element
+            const form = document.getElementById('rankForm');
+            const submitBtn = document.getElementById('submitBtn');
+            const resultElement = document.getElementById('result');
+            
+            // Course data with reference points and cutoffs
+            const nursingData = {
+                name: "nursing",
+                displayName: "BSc Nursing Program",
+                totalSeats: 45,
+                participants: "Unknown", // No official data
+                cutoff: 50, // Minimum 50% marks required as per official documents
+                referencePoints: [
+                    // Based on the revised data
+                    { marks: 85, rank: 1 },      // Top rank starts at 85+
+                    { marks: 80, rank: 5 },      // Ranks 1-10 for 85+ marks
+                    { marks: 75, rank: 10 },     // Start of regular selection list
+                    { marks: 72, rank: 45 },     // End of selection list
+                    { marks: 69, rank: 54 },     // Rank 54 (waiting list 9) at 69 marks
+                    { marks: 66, rank: 64 },     // Rank 64 (waiting list 19) at 66 marks
+                    { marks: 60, rank: 80 },     // Rank 80 (waiting list 35) at 60 marks
+                    { marks: 55, rank: 95 },     // Estimated
+                    { marks: 50, rank: 115 }     // Minimum cutoff
+                ]
+            };
+            
+            // Add submit event listener
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                calculateRank();
+            });
+            
+            // Also add click event to button as a backup
+            submitBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                calculateRank();
+            });
+            
+            // Function to calculate and display rank
+            function calculateRank() {
+                // Reset note display
+                const resultNoteElement = document.getElementById('resultNote');
+                resultNoteElement.style.display = 'none';
+                resultNoteElement.classList.remove('result-below-cutoff');
+                resultNoteElement.textContent = '';
+                
+                // Get input values
+                const name = document.getElementById('name').value.trim();
+                const marksInput = document.getElementById('marks').value.trim();
+                const marks = parseFloat(marksInput);
+                
+                // Validate inputs
+                if (name === '') {
+                    alert('Please enter student name');
+                    return;
+                }
+                
+                // Validate marks
+                if (marksInput === '' || isNaN(marks) || marks < 0 || marks > 100) {
+                    document.getElementById('marksError').style.display = 'block';
+                    return;
+                } else {
+                    document.getElementById('marksError').style.display = 'none';
+                }
+                
+                // Check if marks are below 50% (cutoff)
+                if (marks < 50) {
+                    // Display result for below cutoff
+                    document.getElementById('resultName').textContent = name;
+                    document.getElementById('resultMarks').textContent = marks;
+                    
+                    // Hide rank and waiting list
+                    document.getElementById('resultRank').textContent = 'Not Eligible';
+                    document.getElementById('waitingListSection').style.display = 'none';
+                    
+                    // Show below cutoff message
+                    resultNoteElement.textContent = 'As per official documents, a minimum of 50% marks is required in the entrance examination to be eligible for admission to the BSc Nursing program.';
+                    resultNoteElement.classList.add('result-below-cutoff');
+                    resultNoteElement.style.display = 'block';
+                    
+                    document.getElementById('result').style.display = 'block';
+                    
+                    // Update seat information
+                    const seatInfoDiv = document.getElementById('seatInfo');
+                    seatInfoDiv.innerHTML = `
+                        <div class="seat-item total-seats">
+                            Total Seats
+                            <span class="seat-count">${nursingData.totalSeats}</span>
+                        </div>
+                        <div class="seat-item">
+                            Your Position
+                            <span class="seat-count">Not Eligible</span>
+                        </div>
+                    `;
+                    
+                    // Log this calculation for analytics
+                    logCalculation({
+                        name: name,
+                        course: "nursing",
+                        marks: marks,
+                        rank: "Not Eligible",
+                        waitingList: "Not Eligible"
+                    });
+                    
+                    // Scroll to results
+                    document.getElementById('result').scrollIntoView({behavior: 'smooth'});
+                    return;
+                }
+                
+                // Calculate expected rank with the new logic
+                let expectedRank = calculateExpectedRank(marks);
+                
+                // Calculate waiting list rank starting from 1
+                let waitingListRank = "Not in waiting list";
+                if (expectedRank > nursingData.totalSeats) {
+                    waitingListRank = expectedRank - nursingData.totalSeats;
+                }
+                
+                // Add note for BSc Nursing
+                resultNoteElement.textContent = `Note: This rank prediction is based on limited data from previous years. The BSc Nursing program has 45 regular seats with limited historical data available.`;
+                resultNoteElement.style.display = 'block';
+                
+                // Display results
+                document.getElementById('resultName').textContent = name;
+                document.getElementById('resultMarks').textContent = marks;
+                document.getElementById('resultRank').textContent = `Rank: ${expectedRank}`;
+                document.getElementById('resultWaitingRank').textContent = waitingListRank;
+                document.getElementById('result').style.display = 'block';
+                
+                // Log this calculation for analytics
+                logCalculation({
+                    name: name,
+                    course: "nursing",
+                    marks: marks,
+                    rank: expectedRank,
+                    waitingList: waitingListRank
+                });
+                
+                // Update seat information with highlighted total seats
+                const seatInfoDiv = document.getElementById('seatInfo');
+                
+                seatInfoDiv.innerHTML = `
+                    <div class="seat-item total-seats">
+                        Total Seats
+                        <span class="seat-count">${nursingData.totalSeats}</span>
+                    </div>
+                    <div class="seat-item">
+                        Your Position
+                        <span class="seat-count">${expectedRank <= nursingData.totalSeats ? 'Selected' : 'Waiting List'}</span>
+                    </div>
+                `;
+                
+                // Show or hide waiting list section based on rank
+                document.getElementById('waitingListSection').style.display = 
+                    expectedRank <= nursingData.totalSeats ? 'none' : 'flex';
+                
+                // Scroll to results
+                document.getElementById('result').scrollIntoView({behavior: 'smooth'});
+            }
+            
+            // Function to calculate expected rank based on marks with new logic
+            function calculateExpectedRank(marks) {
+                // Special logic for top ranks (85+ marks)
+                if (marks >= 85) {
+                    // Calculate rank between 1-10 based on marks above 85
+                    const marksDiff = 100 - marks;  // How far from perfect score
+                    return Math.max(1, Math.round(1 + (marksDiff * 0.4))); // 0.4 gives range of ~1-10
+                } 
+                // Special logic for marks between 72-85 (ranks 10-45, selection list)
+                else if (marks >= 72 && marks < 85) {
+                    const markRange = 85 - 72;  // 13 marks span
+                    const rankRange = 45 - 10;  // 35 ranks span
+                    const markPosition = 85 - marks;  // How far from top mark in this range
+                    return Math.round(10 + (markPosition / markRange) * rankRange);
+                }
+                // Handle marks for 69 (known rank 54)
+                else if (marks >= 68.5 && marks < 69.5) {
+                    return 54;  // Exact rank for 69 marks
+                }
+                // Handle marks for 66 (known rank 64)
+                else if (marks >= 65.5 && marks < 66.5) {
+                    return 64;  // Exact rank for 66 marks
+                }
+                // Handle marks for 60 (known rank 80)
+                else if (marks >= 59.5 && marks < 60.5) {
+                    return 80;  // Exact rank for 60 marks
+                }
+                // For marks between 50-72 not covered by specific cases
+                else {
+                    // Find the two reference points to interpolate between
+                    const refPoints = nursingData.referencePoints;
+                    let lowerRef, upperRef;
+                    
+                    // Find bounding reference points
+                    for (let i = 0; i < refPoints.length - 1; i++) {
+                        if (marks <= refPoints[i].marks && marks >= refPoints[i + 1].marks) {
+                            upperRef = refPoints[i];
+                            lowerRef = refPoints[i + 1];
+                            break;
+                        }
+                    }
+                    
+                    // If no bounding points found, default to the lowest reference point
+                    if (!lowerRef || !upperRef) {
+                        return refPoints[refPoints.length - 1].rank;
+                    }
+                    
+                    // Calculate using linear interpolation
+                    const marksDiff = upperRef.marks - lowerRef.marks;
+                    const rankDiff = lowerRef.rank - upperRef.rank;
+                    const markRatio = (marks - lowerRef.marks) / marksDiff;
+                    return Math.round(lowerRef.rank - (markRatio * rankDiff));
+                }
+            }
+        });
+    </script>
+</body>
+</html>
